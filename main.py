@@ -40,6 +40,27 @@ def CrearUsuario():
         "msg" : "response"
     }))
 
+#FUNCIÓN PARA VALIDAD UN SOLO ID
+def ValidarID():
+    global Usuarios
+    id = request.json["id_user"]
+    for i in range(len(Usuarios)):
+        pass
+
+#METODO POST PARA VALIDAD EL USUARIO 
+@app.route("/validacion_usuario", methods = ["POST"])
+def VerificarUser():
+    global Usuarios
+    nickname = request.json["user_nickname"]
+    for i in range(len(Usuarios)):
+        if nickname == Usuarios[i].getUser_nickname():
+            return(jsonify({
+                
+            }))
+    return(jsonify({
+        "Mensaje" : "Usuario no encontrado"
+    }))
+
 #********************************************************************************************************
 #FORMATO PARA INICIAR NUESTRA API
 if __name__ == "__main__":
