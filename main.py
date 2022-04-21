@@ -84,21 +84,26 @@ def ValidarIDusuario(id):
 def VerificarUser():
     global Usuarios
     nickname = request.json["user_nickname"]
+    password = request.json["user_password"]
     for i in range(len(Usuarios)):
         if nickname == Usuarios[i].getUser_nickname():
-            Dato = []
-            for Usuario in Usuarios:
-                objeto = {
-                    "id_user" : Usuario.getId_user(),
-                    "user_display_name" : Usuario.getUser_display_name(),
-                    "user_nickname": Usuario.getUser_nickname(),
-                    "user_password" : Usuario.getUser_password(),
-                    "user_age" : Usuario.getUser_age(),
-                    "user_career": Usuario.getUser_career(),
-                    "user_carnet" : Usuario.getUser_carnet()
-                }
-            Dato.append(objeto)
-            return(jsonify(Dato))
+            if password == Usuarios[i].getUser_password():
+                Dato = []
+                for Usuario in Usuarios:
+                    objeto = {
+                        "id_user" : Usuario.getId_user(),
+                        "user_display_name" : Usuario.getUser_display_name(),
+                        "user_nickname": Usuario.getUser_nickname(),
+                        "user_password" : Usuario.getUser_password(),
+                        "user_age" : Usuario.getUser_age(),
+                        "user_career": Usuario.getUser_career(),
+                        "user_carnet" : Usuario.getUser_carnet()
+                    }
+                Dato.append(objeto)
+                return(jsonify(Dato))
+            else: return(jsonify({
+                "Mensaje" : "La contraseña no existe dentro de nuestra base de datos"
+                }))
         return(jsonify({
             "Mensaje" : "El Usuario no existe dentro de nuestra base de datos"
             }))
