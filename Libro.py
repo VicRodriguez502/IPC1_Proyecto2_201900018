@@ -49,6 +49,9 @@ class Libro():
     def setBook_title(self, book_title):
         self.book_title = book_title
     
+    def setBook_type(self, book_type):
+        self.book_type = book_type
+    
     def setAuthor(self, author):
         self.author = author
         
