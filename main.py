@@ -177,38 +177,37 @@ def Reviso(n):
         
 
 #MÉTODO PARA ACTUALIZAR UN LIBRO
-@app.route("/actualizar_libro/<string:lib>", methods = ["PUT"])
-def ActualizarLibro(lib):
+@app.route("/actualizarlibro/<int:id>", methods = ["PUT"])
+def ActualizarLibro(id):
     global Libros
-    id = request.json["id_book"]
-    titulo = request.json["book_title"]
+    idlib = request.json["id_book"]
+    title = request.json["book_title"]
     type = request.json["book_type"]
-    autor = request.json["author"]
+    author = request.json["author"]
     count = request.json["book_count"]
     available = request.json["book_available"]
-    noavailable = request.json["book_not_available"]
-    year = request.json["book_year"]
+    navailable = request.json["book_not_available"]
+    anio = request.json["book_year"]
     editorial = request.json["book_editorial"]
     for i in range(len(Libros)):
-        if lib == Libros[i].getID_book:
-            Libros[i].setID_book(id)
-            Libros[i].setBook_title(titulo)
+        if id == int(Libros[i].getID_book()):
+            Libros[i].setID_book(idlib)
+            Libros[i].setBook_title(title)
             Libros[i].setBook_type(type)
-            Libros[i].setAuthor(autor)
+            Libros[i].setAuthor(author)
             Libros[i].setBook_count(count)
             Libros[i].setBook_available(available)
-            Libros[i].setBook_not_available(noavailable)
-            Libros[i].setBook_year(year)
+            Libros[i].setBook_not_available(navailable)
+            Libros[i].setBook_year(anio)
             Libros[i].setBook_editorial(editorial)
             return(jsonify({
-                "status": "200",
-                "msg": "Se actualizo Correctamente"
+                "status": 200,
+                "msg": "Se actualizo el Libro Correctamente"
             })),200
-        else:
-            return(jsonify({
-                "status": "400",
-                "msg": "No se pudo actualizar el libro"
-            })),400
+    return(jsonify({
+        "status": 400,
+        "msg": "No se pudo actualizar el Libro"
+    }))           
 
 
 
