@@ -26,7 +26,7 @@ CORS(app)
 #CUERPO DE METODOS PARA LA API
 @app.route("/", methods = ["GET"])
 def iniciar():
-    return "Servidor se ha Iniciado"
+    return "BIENVENIDO AL PROYECTO 2 DE IPC1"
 
 #***********************************************************
 #METODOS Y FUNCIONES PARA USUARIOS
@@ -64,12 +64,12 @@ def CrearUsuario():
         if ValidarIDusuario(id) == False:
             Usuarios.append(Usuario(id, name, nickname, password, edad, carrera, carnet))
             return(jsonify({
-            "status": "400",
+            "status": "200",
             "msg": "El usuario se ha creado correctamente"
             })),200 
         else:
             return(jsonify({
-                "status": "200",
+                "status": "400",
                 "msg" : "El ID de Usuario ya existe, intente con otro"
             })),400
     except:
