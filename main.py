@@ -61,29 +61,29 @@ def CrearUsuario():
         edad = request.json["user_age"]
         carrera = request.json["user_career"]
         carnet = request.json["user_carnet"]
-        if ValidarIDusuario(id) == True:
-            return(jsonify({
-            "status": "400",
-            "msg": "El ID de Usuario ya existe, intente con otro"
-            })),400 
-        else:
+        if ValidarIDusuario(id) == False:
             Usuarios.append(Usuario(id, name, nickname, password, edad, carrera, carnet))
             return(jsonify({
-            "status": "200",
-            "msg" : "El usuario se ha creado correctamente"
-        })),200
+            "status": "400",
+            "msg": "El usuario se ha creado correctamente"
+            })),200 
+        else:
+            return(jsonify({
+                "status": "200",
+                "msg" : "El ID de Usuario ya existe, intente con otro"
+            })),400
     except:
         pass
 
 
 #FUNCIÓN PARA VALIDAD QUE NO SE REPITA EL ID USUARIO
-def ValidarIDusuario(id):
+def ValidarIDusuario(n):
     global Usuarios
-    for i in range(len(Usuarios)):
-        if id == Usuarios[i].getId_user():
-            return True
-        else: 
-            return False
+    valido = False
+    for Usuario in Usuarios:
+        if str(n) == str(Usuario.getId_user()):
+            valido =True
+    return valido
 
 #METODO POST PARA VALIDAR EL USUARIO 
 @app.route("/validacion_usuario", methods = ["POST"])
@@ -179,7 +179,7 @@ def Reviso(n):
         
 
 #MÉTODO PARA ACTUALIZAR UN LIBRO
-@app.route("/actualizarlibro/string:id>", methods = ["PUT"])
+@app.route("/actualizarlibro/<int:id>", methods = ["PUT"])
 def ActualizarLibro(id):
     global Libros
     idlib = request.json["id_book"]
@@ -192,7 +192,7 @@ def ActualizarLibro(id):
     anio = request.json["book_year"]
     editorial = request.json["book_editorial"]
     for i in range(len(Libros)):
-        if id == Libros[i].getID_book():
+        if id == int(Libros[i].getID_book()):
             Libros[i].setID_book(idlib)
             Libros[i].setBook_title(title)
             Libros[i].setBook_type(type)
