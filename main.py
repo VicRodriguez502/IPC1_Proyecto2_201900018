@@ -12,8 +12,8 @@ Usuarios = []
 Libros = []
 Prestamos = []
 
-Libros.append(Libro('1','don quijote','libro','nose','100','50','50','2021','usac'))
-Libros.append(Libro('2','luna de pluton','novela','dross','200','100','100','2019','venezuela'))
+Libros.append(Libro(1,"Don Quijote", "Libro", "Miguel de Cervantes", "50", "25", "25", "1990", "Española"))
+Libros.append(Libro(2, "Viajes Extraordinarios", "Libro Electronico", "Luisito comunica", "100", "80", "20", "2019", "Mexico"))
 
 #*******************************************************************************************************
 #CREACIÓN API 
@@ -68,7 +68,7 @@ def CrearUsuario():
             Usuarios.append(Usuario(id, name, nickname, password, edad, carrera, carnet))
             return(jsonify({
             "status": "200",
-            "msg" : "response"
+            "msg" : "El usuario se ha creado correctamente"
         })),200
     except:
         pass
@@ -207,7 +207,95 @@ def ActualizarLibro(id):
     return(jsonify({
         "status": 400,
         "msg": "No se pudo actualizar el Libro"
-    }))           
+    }))
+
+#METODO GET PARA VER LIBROS SEGUN SI ID, TIPO O TITULO
+@app.route("/verlibro", methods=["GET"])
+def VerLibro():
+    global Libros
+    idlib = None
+    tipo = None
+    titulo = None
+    try:
+        try:
+            idlib = request.json["id_book"]
+        except:
+            idlib = None
+        try:
+            tipo = request.json["book_type"]
+        except:
+            tipo = None
+        try:
+            titulo = request.json["book_title"]
+        except:
+            titulo = None
+        if idlib !=None:
+            for i in range(len(Libros)):
+                if idlib == Libros[i].getID_book():
+                    datos={
+                        "id_book":Libros[i].getID_book(),
+                        "book_title":Libros[i].getBOOK_title(),
+                        "book_type": Libros[i].getBOOK_type(),
+                        "author": Libros[i].getAuthor(),
+                        "book_count": Libros[i].getBOOK_count(),
+                        "book_available": Libros[i].getBOOK_available(),
+                        "book_not_available": Libros[i].getBOOK_not_available(),
+                        "book_year":Libros[i].getBOOK_year(),
+                        "book_editorial": Libros[i].getBOOK_editorial()
+                    }
+                    return(jsonify(datos))
+                
+            return(jsonify({
+                "Mensaje":"No se encontró el id"
+                    })),400
+        elif idlib == None and tipo !=None and titulo == None:
+            type = []
+            for i in range(len(Libros)):
+                if tipo == Libros[i].getBOOK_type():
+                    datos1={
+                        "id_book":Libros[i].getID_book(),
+                        "book_title":Libros[i].getBOOK_title(),
+                        "book_type": Libros[i].getBOOK_type(),
+                        "author": Libros[i].getAuthor(),
+                        "book_count": Libros[i].getBOOK_count(),
+                        "book_available": Libros[i].getBOOK_available(),
+                        "book_not_available": Libros[i].getBOOK_not_available(),
+                        "book_year":Libros[i].getBOOK_year(),
+                        "book_editorial": Libros[i].getBOOK_editorial()
+                    }
+                    type.append(datos1)
+            if len(type) == 0:
+                return(jsonify({
+                    "Mensaje":"No se encontró el tipo"
+                        })),400
+            else:
+                return(jsonify(type)),200
+        elif idlib == None and tipo == None and titulo != None:
+            title = []
+            for i in range(len(Libros)):
+                if titulo == Libros[i].getBOOK_title():
+                    datos2 = {
+                        "id_book":Libros[i].getID_book(),
+                        "book_title":Libros[i].getBOOK_title(),
+                        "book_type": Libros[i].getBOOK_type(),
+                        "author": Libros[i].getAuthor(),
+                        "book_count": Libros[i].getBOOK_count(),
+                        "book_available": Libros[i].getBOOK_available(),
+                        "book_not_available": Libros[i].getBOOK_not_available(),
+                        "book_year":Libros[i].getBOOK_year(),
+                        "book_editorial": Libros[i].getBOOK_editorial()
+                    }
+                    title.append(datos2)
+            if len(title) == 0:
+                return(jsonify({
+                    "Mensaje":"No se encontró el titulo"
+                        })),400
+            else:
+                return(jsonify(title)),200
+    except:
+        return(jsonify({
+            "Mensaje":"Por favor ingresa json valido"
+                })),400
 
 
 
