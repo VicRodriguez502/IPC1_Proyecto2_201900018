@@ -15,6 +15,8 @@ Prestamos = []
 Libros.append(Libro(1,"Don Quijote", "Libro", "Miguel de Cervantes", "50", "25", "25", "1990", "Española"))
 Libros.append(Libro(2, "Viajes Extraordinarios", "Libro Electronico", "Luisito comunica", "100", "80", "20", "2019", "Mexico"))
 
+Usuarios.append(Usuario(1, "Victor Rodriguez", "TheKing502", "123456", "25", "Ingenieria en ciencias y Sistemas", "201900018"))
+
 #*******************************************************************************************************
 #CREACIÓN API 
 app = Flask(__name__)
@@ -138,7 +140,7 @@ def MostrarLibros():
     return(jsonify(Dato)),200
 
 #METODO PARA CREAR UN LIBRO NUEVO
-@app.route("/crear/libro2", methods = ["POST"])
+@app.route("/crearlibro", methods = ["POST"])
 def CrearLibro2():
     global Libros
     try:
@@ -177,7 +179,7 @@ def Reviso(n):
         
 
 #MÉTODO PARA ACTUALIZAR UN LIBRO
-@app.route("/actualizarlibro/<int:id>", methods = ["PUT"])
+@app.route("/actualizarlibro/string:id>", methods = ["PUT"])
 def ActualizarLibro(id):
     global Libros
     idlib = request.json["id_book"]
@@ -190,7 +192,7 @@ def ActualizarLibro(id):
     anio = request.json["book_year"]
     editorial = request.json["book_editorial"]
     for i in range(len(Libros)):
-        if id == int(Libros[i].getID_book()):
+        if id == Libros[i].getID_book():
             Libros[i].setID_book(idlib)
             Libros[i].setBook_title(title)
             Libros[i].setBook_type(type)
